@@ -156,7 +156,7 @@
 			"type": "boolean"
 		},
 		{
-			"name": "/actions/main/in/MoveUp axis",
+			"name": "/actions/main/in/MoveForward axis",
 			"type": "vector1"
 		},
 		{
@@ -173,6 +173,14 @@
 		},
 		{
 			"name": "/actions/main/in/Facing axis",
+			"type": "vector1"
+		},
+		{
+			"name": "/actions/main/in/FaceForward axis",
+			"type": "vector1"
+		},
+		{
+			"name": "/actions/main/in/FaceRight axis",
 			"type": "vector1"
 		}
 	],
@@ -418,11 +426,13 @@
 			"/actions/main/in/open_console": "Open Console",
 			"/actions/main/in/Jump": "Jump",
 			"/actions/main/in/ResetVR": "ResetVR",
-			"/actions/main/in/MoveUp axis": "MoveUp",
+			"/actions/main/in/MoveForward axis": "MoveForward",
 			"/actions/main/in/MoveRight axis": "MoveRight",
 			"/actions/main/in/TurnRate axis": "TurnRate",
 			"/actions/main/in/Turn axis": "Turn",
 			"/actions/main/in/Facing axis": "Facing",
+			"/actions/main/in/FaceForward axis": "FaceForward",
+			"/actions/main/in/FaceRight axis": "FaceRight",
 			"/actions/main": "Main Game Actions"
 		}
 	]
