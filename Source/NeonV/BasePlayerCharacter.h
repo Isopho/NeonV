@@ -106,7 +106,7 @@ protected:
 
 	virtual FVector CalculateDesiredOrientation();
 
-	virtual void TrunCharacter(float AngleToDesiredOrientation);
+	virtual void TurnCharacter(float AngleToDesiredOrientation);
 
 private:
 };

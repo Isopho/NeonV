@@ -62,17 +62,18 @@ void ABasePlayerCharacter::SetupPlayerInputComponent(class UInputComponent* Play
 	PlayerInputComponent->BindAxis("FaceForward", this, &ABasePlayerCharacter::FaceForward);
 	PlayerInputComponent->BindAxis("FaceRight", this, &ABasePlayerCharacter::FaceRight);
 
+
+	InputComponent->BindAction("Fire", IE_Pressed, this, &ABasePlayerCharacter::FireTrigger);
+	InputComponent->BindAction("Fire", IE_Released, this, &ABasePlayerCharacter::ReleaseFireTrigger);
 }
 
 void ABasePlayerCharacter::KeyboardAction()
 {
-	UE_LOG(LogTemp, Warning, TEXT("%s"), *FString("KeyboardAction " + PlayerIndex));
 	MouseAction();
 }
 
 void ABasePlayerCharacter::MouseAction()
 {
-	UE_LOG(LogTemp, Warning, TEXT("%s"), *FString("MouseAction " + PlayerIndex));
 	APlayerController* PC = UGameplayStatics::GetPlayerController(this, PlayerIndex);
 	if (PC)
 	{
@@ -84,7 +85,6 @@ void ABasePlayerCharacter::MouseAction()
 
 void ABasePlayerCharacter::GamepadAction()
 {
-	UE_LOG(LogTemp, Warning, TEXT("%s"), *FString("GamepadAction " + PlayerIndex));
 	APlayerController* PC = UGameplayStatics::GetPlayerController(this, PlayerIndex);
 	if (PC)
 	{
@@ -113,7 +113,7 @@ void ABasePlayerCharacter::AdjustCharacterOrientation()
 {
 	FVector DesiredOrientation = CalculateDesiredOrientation();
 	float AngleToDesiredOrientation = NeonVMath::CalculateHorizontalAngle(CharacterCenterComponent->GetForwardVector(), DesiredOrientation);
-	TrunCharacter(AngleToDesiredOrientation);
+	TurnCharacter(AngleToDesiredOrientation);
 }
 
 
@@ -176,7 +176,7 @@ FVector ABasePlayerCharacter::CalculateDesiredOrientation()
 	return DesiredOrientation.GetSafeNormal(0.0001f);
 }
 
-void ABasePlayerCharacter::TrunCharacter(float AngleToDesiredOrientation)
+void ABasePlayerCharacter::TurnCharacter(float AngleToDesiredOrientation)
 {
 	// Reduce turnrate for "small" angles. (Angles within the SoftTurnRadian)
 	float SoftTurnRateMultiplier = UKismetMathLibrary::FClamp(AngleToDesiredOrientation / SoftTurnRadian, -1.0f, 1.0f);

@@ -4,10 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "BaseWeapon.h"
+#include "Damageable.h"
 #include "BaseCharacter.generated.h"
 	
 UCLASS(Blueprintable)
-class NEONV_API ABaseCharacter : public ACharacter
+class NEONV_API ABaseCharacter : public ACharacter, public IDamageable
 {
 	GENERATED_BODY()
 
@@ -18,15 +20,32 @@ public:
 		float Health = 100;
 
 	//make is dead property
-	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "Base Character")
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "Base Character")
 		bool bDead = false;
 
-	//Calc death function (helper)
-	virtual void CalculateDead();
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "Base Character")
+		TArray<ABaseWeapon *> Weapons;
 
-	//calc health function
 	UFUNCTION(BlueprintCallable, Category = "Base Character")
 		virtual void CalculateHealth(float DeltaHealth);
+
+	virtual void AffectHealth_Implementation(float DeltaHealth) override;
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Base Character")
+		void HealthAffected(float DeltaHealth);
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Base Character")
+		void OnDeath();
+
+	UFUNCTION(BlueprintCallable, Category = "Base Character")
+		virtual void CreateAndEquipWeapon(USceneComponent * WeaponMount, TSubclassOf<ABaseWeapon> WeaponClass);
+
+	UFUNCTION(BlueprintCallable, Category = "Base Character")
+		virtual void FireTrigger();
+
+	UFUNCTION(BlueprintCallable, Category = "Base Character")
+		virtual void ReleaseFireTrigger();
+
 
 #if WITH_EDITOR
 	//editor-centric code for changing properties
@@ -40,6 +59,8 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	//Calc death function (helper)
+	virtual void CalculateDead();
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
