@@ -51,12 +51,11 @@ void ABaseCharacter::CreateAndEquipWeapon(USceneComponent * WeaponMount, TSubcla
 {
 	FTransform SpawnTransform = WeaponMount->GetComponentTransform();
 
-	ABaseWeapon * Weapon = Cast<ABaseWeapon>(UGameplayStatics::BeginDeferredActorSpawnFromClass(this, WeaponClass, SpawnTransform));
+	ABaseWeapon * Weapon = Cast<ABaseWeapon>(UGameplayStatics::BeginDeferredActorSpawnFromClass(this, WeaponClass, SpawnTransform, ESpawnActorCollisionHandlingMethod::AlwaysSpawn, this));
 	if (Weapon)
 	{
 		//Weapon Init
-		Weapon->Tags.Add(FName("Weapon"));
-		Weapon->SetOwner(this);
+		Weapon->SetInstigator(this);
 
 		UGameplayStatics::FinishSpawningActor(Weapon, SpawnTransform);
 	}

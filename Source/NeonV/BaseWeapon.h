@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "BaseProjectile.h"
 #include "BaseWeapon.generated.h"
 
 UCLASS()
@@ -13,14 +14,23 @@ class NEONV_API ABaseWeapon : public AActor
 	
 public:	
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "Base Weapon")
-		TArray<FName> FriendlyFireTags;
+		TArray<FName> ProjectileIgnoreCollisionTags;
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "Base Weapon")
 		float RoundsPerMinute = 60;
 
 	/** Projectile Spawn */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Base Weapon")
-		class USceneComponent* ProjectileSpawn;
+		USceneComponent* ProjectileSpawn;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Base Weapon")
+		TSubclassOf<ABaseProjectile> ProjectileClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Base Weapon")
+		FVector ProjectileSize = FVector(1,1,1);
+
+	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "Base Weapon")
+		FName WeaponTag = FName("Weapon");
 
 	// Sets default values for this actor's properties
 	ABaseWeapon();
@@ -50,6 +60,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Base Weapon")
 		virtual float GetRemainingWeaponCooldown();
+
 
 protected:
 	// Called when the game starts or when spawned

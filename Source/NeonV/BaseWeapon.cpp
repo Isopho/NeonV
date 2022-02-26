@@ -17,6 +17,8 @@ ABaseWeapon::ABaseWeapon()
 	// Create a projectile spawn
 	ProjectileSpawn = CreateDefaultSubobject<UArrowComponent>(TEXT("ProjectileSpawn")); 
 	ProjectileSpawn->SetupAttachment(GetRootComponent());
+
+	Tags.AddUnique(WeaponTag);
 }
 
 // Called when the game starts or when spawned
@@ -57,21 +59,19 @@ void ABaseWeapon::FireWeapon()
 {
 	UE_LOG(LogTemp, Warning, TEXT("%s"), *FString("FireWeapon"));
 
-	//FTransform SpawnTransform = ProjectileSpawn->GetComponentTransform();
+	FTransform SpawnTransform = ProjectileSpawn->GetComponentTransform();
+	SpawnTransform.SetScale3D(ProjectileSize);
 
-	//ABaseWeapon* Weapon = Cast<ABaseWeapon>(UGameplayStatics::BeginDeferredActorSpawnFromClass(this, WeaponClass, SpawnTransform));
-	//if (Weapon)
-	//{
-	//	//Weapon Init
-	//	Weapon->Tags.Add(FName("Weapon"));
-	//	Weapon->SetOwner(this);
+	ABaseProjectile* Projectile = Cast<ABaseProjectile>(UGameplayStatics::BeginDeferredActorSpawnFromClass(this, ProjectileClass, SpawnTransform, ESpawnActorCollisionHandlingMethod::AlwaysSpawn));
+	if (Projectile->GetClass() != NULL)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("%s"), *FString("FireWeapon - Projectile Class: " + Projectile->GetClass()->GetName()));
+		//Projectile Init
+		Projectile->IgnoreCollisionTags.Append(ProjectileIgnoreCollisionTags);
+		Projectile->SetInstigator(this->GetInstigator());
 
-	//	UGameplayStatics::FinishSpawningActor(Weapon, SpawnTransform);
-	//}
-
-	//Weapons.Add(Weapon);
-
-	//Weapon->AttachToComponent(WeaponMount, FAttachmentTransformRules::SnapToTargetIncludingScale);
+		UGameplayStatics::FinishSpawningActor(Projectile, SpawnTransform);
+	}
 
 	WeaponFired();
 }

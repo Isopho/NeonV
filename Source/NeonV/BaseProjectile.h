@@ -21,7 +21,40 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Base Projectile")
 		class UShapeComponent* ProjectileCollision;
 
-	
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "Base Projectile")
+		TArray<FName> IgnoreCollisionTags;
+
+	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "Base Projectile")
+		float Damage = 1;
+
+	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "Base Projectile")
+		FName ProjectileTag = FName("Projectile");
+
+	/** Delegate for Projectile's overlap begin event. */
+	UFUNCTION()
+		void OnProjectileBeginOverlap
+		(
+			UPrimitiveComponent* OverlappedComponent,
+			AActor* OtherActor,
+			UPrimitiveComponent* OtherComp,
+			int32 OtherBodyIndex,
+			bool bFromSweep, const
+			FHitResult& SweepResult
+		);
+
+	/** Delegate for Projectile's overlap end event. */
+	UFUNCTION()
+		void OnProjectileEndOverlap
+		(
+			UPrimitiveComponent* OverlappedComp,
+			AActor* OtherActor,
+			UPrimitiveComponent* OtherComp,
+			int32 OtherBodyIndex
+		);
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Base Projectile")
+		void OnProjectileCollision();
+
 	// Sets default values for this actor's properties
 	ABaseProjectile();
 
