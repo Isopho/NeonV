@@ -80,6 +80,6 @@ Packaging/*
 Binaries/*
 Intermediate/*
 
-Content/**
-!Content/NeonV/**
+Content/*
+!Content/NeonV/
 
