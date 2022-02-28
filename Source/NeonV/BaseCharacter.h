@@ -15,17 +15,21 @@ class NEONV_API ABaseCharacter : public ACharacter, public IDamageable
 
 public:
 
-	//make health property
+	// ======================================================================================
+	//	public Properties
+	// ======================================================================================
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Base Character")
 		float Health = 100;
 
-	//make is dead property
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "Base Character")
 		bool bDead = false;
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "Base Character")
 		TArray<ABaseWeapon *> Weapons;
 
+	// ======================================================================================
+	//	Health & Death Functions
+	// ======================================================================================
 	UFUNCTION(BlueprintCallable, Category = "Base Character")
 		virtual void CalculateHealth(float DeltaHealth);
 
@@ -37,6 +41,10 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, Category = "Base Character")
 		void OnDeath();
 
+	// ======================================================================================
+	//	Weapon Functions
+	// ======================================================================================
+
 	UFUNCTION(BlueprintCallable, Category = "Base Character")
 		virtual void CreateAndEquipWeapon(USceneComponent * WeaponMount, TSubclassOf<ABaseWeapon> WeaponClass);
 
@@ -46,6 +54,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Base Character")
 		virtual void ReleaseFireTrigger();
 
+	// ======================================================================================
+	//	General Functions
+	// ======================================================================================
 
 #if WITH_EDITOR
 	//editor-centric code for changing properties

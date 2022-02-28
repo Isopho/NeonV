@@ -13,6 +13,10 @@ class NEONV_API ABaseProjectile : public AActor
 	GENERATED_BODY()
 
 public:
+	// ======================================================================================
+	//	public Properties
+	// ======================================================================================
+
 	/** Projectile Movement Component */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Base Projectile")
 		class UProjectileMovementComponent* ProjectileMovement;
@@ -29,6 +33,10 @@ public:
 
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "Base Projectile")
 		FName ProjectileTag = FName("Projectile");
+
+	// ======================================================================================
+	//	Collision Functions
+	// ======================================================================================
 
 	/** Delegate for Projectile's overlap begin event. */
 	UFUNCTION()
@@ -53,9 +61,19 @@ public:
 		);
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "Base Projectile")
-		void OnProjectileCollision();
+		void OnProjectileCollision(
+			UPrimitiveComponent* OverlappedComponent,
+			AActor* OtherActor,
+			UPrimitiveComponent* OtherComp,
+			int32 OtherBodyIndex,
+			bool bFromSweep, const
+			FHitResult& SweepResult);
 
-	// Sets default values for this actor's properties
+
+	// ======================================================================================
+	//	General Functions
+	// ======================================================================================
+
 	ABaseProjectile();
 
 protected:

@@ -56,7 +56,7 @@ public:
 		float RightThumbstickDeadZone = 0.5;
 
 	// ======================================================================================
-	//	General Methods
+	//	General Functions
 	// ======================================================================================
 	ABasePlayerCharacter();
 
@@ -78,7 +78,7 @@ protected:
 	FVector2D ThumbstickOrientation;
 
 	// ======================================================================================
-	//	General Methods
+	//	General Functions
 	// ======================================================================================
 
 	virtual void BeginPlay() override;

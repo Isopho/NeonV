@@ -71,8 +71,7 @@ void ABaseProjectile::OnProjectileBeginOverlap(
 		IDamageable::Execute_AffectHealth(OtherActor, Damage * -1.0f);
 	}
 
-	// and self destruct
-	this->Destroy();
+	OnProjectileCollision(OverlappedComponent, OtherActor, OtherComp, OtherBodyIndex, bFromSweep, SweepResult);
 
 }
 

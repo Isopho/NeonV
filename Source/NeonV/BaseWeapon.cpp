@@ -43,13 +43,11 @@ void ABaseWeapon::Tick(float DeltaTime)
 	}
 }
 
-//imnpl calc health
 void ABaseWeapon::FireTrigger()
 {
 	bFireTrigger = true;
 }
 
-//imnpl calc health
 void ABaseWeapon::ReleaseFireTrigger()
 {
 	bFireTrigger = false;

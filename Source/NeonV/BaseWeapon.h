@@ -12,7 +12,10 @@ class NEONV_API ABaseWeapon : public AActor
 {
 	GENERATED_BODY()
 	
-public:	
+public:
+	// ======================================================================================
+	//	public Properties
+	// ======================================================================================
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "Base Weapon")
 		TArray<FName> ProjectileIgnoreCollisionTags;
 
@@ -32,11 +35,9 @@ public:
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "Base Weapon")
 		FName WeaponTag = FName("Weapon");
 
-	// Sets default values for this actor's properties
-	ABaseWeapon();
-
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+	// ======================================================================================
+	//	Weapon Functions
+	// ======================================================================================
 
 	UFUNCTION(BlueprintCallable, Category = "Base Weapon")
 		virtual void FireTrigger();
@@ -62,8 +63,17 @@ public:
 		virtual float GetRemainingWeaponCooldown();
 
 
+	// ======================================================================================
+	//	General Functions
+	// ======================================================================================
+
+	ABaseWeapon();
+
+	virtual void Tick(float DeltaTime) override;
+
+
 protected:
-	// Called when the game starts or when spawned
+
 	virtual void BeginPlay() override;
 
 	bool bFireTrigger = false;
