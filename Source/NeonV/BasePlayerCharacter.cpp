@@ -2,8 +2,8 @@
 
 
 #include "BasePlayerCharacter.h"
-#include "Util/NeonVMathUtil.h"
 #include "Kismet/GameplayStatics.h"
+#include "Kismet/KismetMathLibrary.h"
 
 ABasePlayerCharacter::ABasePlayerCharacter()
 {
@@ -17,31 +17,12 @@ void ABasePlayerCharacter::BeginPlay()
 	Super::BeginPlay();
 
 	Tags.Add(FName("Player")); // Did not work in contructor(ABasePlayerCharacter::ABasePlayerCharacter) for some reason
-
-	// Determin CharacterCenter component.
-	TArray<UActorComponent*> CharacterCenterComponents = GetComponentsByTag(USceneComponent::StaticClass(), CharacterCenterTag);
-
-	if (CharacterCenterComponents.IsEmpty())
-	{
-		CharacterCenterComponent = GetRootComponent(); UE_LOG(LogTemp, Warning, TEXT("%s"), *FString("No component has been tagged as CharacterCenter on " + GetName() + "! Using root component as CharacterCenter."));
-	}
-	else 
-	{
-		CharacterCenterComponent = (USceneComponent*) CharacterCenterComponents[0];
-
-		if (CharacterCenterComponents.Num() > 1) {
-			UE_LOG(LogTemp, Warning, TEXT("%s"), *FString("Multiple components have been tagged as CharacterCenter on " + GetName() + "! Using " + CharacterCenterComponent->GetName() + " as CharacterCenter."));
-		}
-	}
 }
 
 // Called every frame
 void ABasePlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	AdjustCharacterOrientation();
-
 }
 
 // ======================================================================================
@@ -108,13 +89,6 @@ void ABasePlayerCharacter::FaceForward(float Value)
 void ABasePlayerCharacter::FaceRight(float Value)
 {
 	ThumbstickOrientation.X = Value;	
-}
-
-void ABasePlayerCharacter::AdjustCharacterOrientation()
-{
-	FVector DesiredOrientation = CalculateDesiredOrientation();
-	float AngleToDesiredOrientation = NeonVMath::CalculateHorizontalAngle(CharacterCenterComponent->GetForwardVector(), DesiredOrientation);
-	TurnCharacter(AngleToDesiredOrientation);
 }
 
 

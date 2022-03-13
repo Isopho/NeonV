@@ -51,25 +51,16 @@ void AAIControllerBase::TargetPerceptionUpdated(AActor* Actor, FAIStimulus Stimu
 
 	if (Stimulus.Type == UAISense::GetSenseID(SightSense) && Actor->ActorHasTag(FName("Player")))
 	{
-		if (Stimulus.WasSuccessfullySensed() && !BB->GetValueAsObject("SightedPlayer"))
-		{
-			BB->SetValueAsObject("SightedPlayer", Actor);
-			UE_LOG(LogTemp, Warning, TEXT("Player sighted"));
+		if (!Stimulus.WasSuccessfullySensed()) {
+			BB->ClearValue("SightedTarget");
+			//K2_ClearFocus();
+			UE_LOG(LogTemp, Warning, TEXT("Lost sight of Target"));
 		}
 		else
 		{
-			if (BB->GetValueAsObject("SightedPlayer") == Actor)
-			{
-				TArray<AActor*> ActorsSensed;
-				AIPerceptionComponent->GetPerceivedActors(SightSense, ActorsSensed);
-				if (ActorsSensed.IsEmpty()) {
-					BB->ClearValue("SightedPlayer");
-					UE_LOG(LogTemp, Warning, TEXT("Lost sight of Players"));
-				}
-				else {					
-					BB->SetValueAsObject("SightedPlayer", ActorsSensed[0]);
-				}
-			}
+			BB->SetValueAsObject("SightedTarget", Actor);
+			//K2_SetFocus(Actor);
+			UE_LOG(LogTemp, Warning, TEXT("Target sighted"));
 		}
 	}
 }

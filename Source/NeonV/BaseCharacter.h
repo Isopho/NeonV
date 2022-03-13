@@ -14,10 +14,10 @@ class NEONV_API ABaseCharacter : public ACharacter, public IDamageable
 	GENERATED_BODY()
 
 public:
-
 	// ======================================================================================
 	//	public Properties
 	// ======================================================================================
+
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Base Character")
 		float Health = 100;
 
@@ -26,6 +26,15 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, VisibleAnywhere, Category = "Base Character")
 		TArray<ABaseWeapon *> Weapons;
+
+	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "Base Character")
+		FName CharacterCenterTag = FName("CharacterCenter");
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Base Character")
+		float BaseTurnRate = 300;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Base Character")
+		float SoftTurnRadian = 30;
 
 	// ======================================================================================
 	//	Health & Death Functions
@@ -67,11 +76,24 @@ public:
 	ABaseCharacter();
 
 protected:
-	// Called when the game starts or when spawned
+
+	// ======================================================================================
+	//	protected Properties
+	// ======================================================================================
+
+	USceneComponent* CharacterCenterComponent;
+
+
 	virtual void BeginPlay() override;
 
 	//Calc death function (helper)
 	virtual void CalculateDead();
+
+	virtual void AdjustCharacterOrientation();
+
+	virtual FVector CalculateDesiredOrientation();
+
+	virtual void TurnCharacter(float AngleToDesiredOrientation);
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

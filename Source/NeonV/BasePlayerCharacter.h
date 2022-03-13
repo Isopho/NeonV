@@ -29,17 +29,8 @@ public:
 	//	public Properties
 	// ======================================================================================
 
-	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "Base Player Character")
-		FName CharacterCenterTag = FName("CharacterCenter");
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Base Player Character")
 		EAimingMethod PlayerAimingMethod = EAimingMethod::MouseAiming;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Base Player Character")
-		float BaseTurnRate = 300;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Base Player Character")
-		float SoftTurnRadian = 30;
 
 	/* Experimental	*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Base Player Character")
@@ -73,8 +64,6 @@ protected:
 	//	protected Properties
 	// ======================================================================================
 
-	USceneComponent* CharacterCenterComponent;
-
 	FVector2D ThumbstickOrientation;
 
 	// ======================================================================================
@@ -102,11 +91,9 @@ protected:
 	void MoveForward(float Value);
 	void MoveRight(float Value);
 
-	virtual void AdjustCharacterOrientation();
+	virtual FVector CalculateDesiredOrientation() override;
 
-	virtual FVector CalculateDesiredOrientation();
-
-	virtual void TurnCharacter(float AngleToDesiredOrientation);
+	virtual void TurnCharacter(float AngleToDesiredOrientation) override;
 
 private:
 };
